@@ -1,0 +1,126 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+
+proxies:
+  - name: "NoProxy"
+    type: direct
+
+proxy-groups:
+  - name: "策略选择"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "NoProxy"
+
+dns:
+  enable: true
+  ipv6: false
+  default-nameserver: [223.5.5.5, 119.29.29.29]
+  nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter: ['*.lan', '*.local', '+.stun.*.*', '+.stun.*.*.*']
+
+tun:
+  enable: true
+  stack: system
+  dns-hijack: [any:53]
+  auto-route: true
+
+rules:
+  # ====== 白名单：校园跑核心服务器（不可拦截） ======
+  - DOMAIN-SUFFIX,iydsj.com,DIRECT
+  - DOMAIN-SUFFIX,zztfly.com,DIRECT
+  - DOMAIN-SUFFIX,alipay.com,DIRECT
+  - DOMAIN-SUFFIX,qianwen.com,DIRECT
+  - DOMAIN-SUFFIX,cmpassport.com,DIRECT
+  - DOMAIN-SUFFIX,alicdn.com,DIRECT
+  - DOMAIN-SUFFIX,bytescm.com,DIRECT
+  - DOMAIN-SUFFIX,zijieapi.com,DIRECT
+  - DOMAIN-SUFFIX,quark.cn,DIRECT
+  - DOMAIN-SUFFIX,e.qq.com,DIRECT
+
+  # ====== 穿山甲广告SDK ======
+  - DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,REJECT
+  - DOMAIN-SUFFIX,pangolin-sdk-toutiao-b.com,REJECT
+  - DOMAIN-SUFFIX,pangolin-sdk-toutiao1.com,REJECT
+  - DOMAIN-SUFFIX,api-access.pangolin-sdk-toutiao.com,REJECT
+  - DOMAIN-SUFFIX,pglstatp-toutiao.com,REJECT
+  - DOMAIN-SUFFIX,toblog.ctobsnssdk.com,REJECT
+  - DOMAIN-SUFFIX,volces.com,REJECT
+  - DOMAIN-SUFFIX,mssdk.volces.com,REJECT
+
+  # ====== 快手广告联盟（红果短剧等广告投放渠道） ======
+  - DOMAIN-SUFFIX,gifshow.com,REJECT
+  - DOMAIN-SUFFIX,yximgs.com,REJECT
+
+  # ====== 运动世界校园 - 广告域名 ======
+  - DOMAIN-SUFFIX,tianmu.mobi,REJECT
+  - DOMAIN-SUFFIX,admobile.top,REJECT
+
+  # ====== 微博广告 ======
+  - DOMAIN-SUFFIX,sax.sina.com.cn,REJECT
+  - DOMAIN-SUFFIX,saxs.sina.com.cn,REJECT
+  - DOMAIN-SUFFIX,ad.weibo.com,REJECT
+
+  # ====== 美团推送 ======
+  - DOMAIN-SUFFIX,push.meituan.com,REJECT
+  - DOMAIN-SUFFIX,meituan.net,REJECT
+
+  # ====== 京东广告 ======
+  - DOMAIN-SUFFIX,dsp-x.jd.com,REJECT
+  - DOMAIN-SUFFIX,janapi.jd.com,REJECT
+
+  # ====== 淘宝广告 ======
+  - DOMAIN-SUFFIX,guide-acs.m.taobao.com,REJECT
+
+  # ====== 快手广告 ======
+  - DOMAIN-SUFFIX,open.e.kuaishou.cn,REJECT
+  - DOMAIN-SUFFIX,e.kuaishou.com,REJECT
+  - DOMAIN-SUFFIX,kwad.com,REJECT
+
+  # ====== 广点通 ======
+  - DOMAIN-SUFFIX,gdt.qq.com,REJECT
+  - DOMAIN-SUFFIX,pgdt.gtimg.cn,REJECT
+  - DOMAIN-SUFFIX,ugdtimg.com,REJECT
+
+  # ====== 推送SDK ======
+  - DOMAIN-SUFFIX,getui.com,REJECT
+  - DOMAIN-SUFFIX,gepush.com,REJECT
+  - DOMAIN-SUFFIX,igexin.com,REJECT
+  - DOMAIN-SUFFIX,umeng.com,REJECT
+  - DOMAIN-SUFFIX,umengcloud.com,REJECT
+
+  # ====== 通用广告 ======
+  - DOMAIN-SUFFIX,yfanads.com,REJECT
+  - DOMAIN-SUFFIX,ads.heytapmobi.com,REJECT
+  - DOMAIN-SUFFIX,mobads.baidu.com,REJECT
+  - DOMAIN-SUFFIX,cpro.baidu.com,REJECT
+  - DOMAIN-SUFFIX,pos.baidu.com,REJECT
+  - DOMAIN-SUFFIX,union.baidu.com,REJECT
+  - DOMAIN-SUFFIX,tanx.com,REJECT
+  - DOMAIN-SUFFIX,alimama.com,REJECT
+  - DOMAIN-SUFFIX,adgain.cn,REJECT
+  - DOMAIN-SUFFIX,xycdnapi.com,REJECT
+  - DOMAIN-SUFFIX,admaster.com.cn,REJECT
+  - DOMAIN-SUFFIX,doubleclick.net,REJECT
+  - DOMAIN-SUFFIX,google-analytics.com,REJECT
+  - DOMAIN-SUFFIX,googlesyndication.com,REJECT
+  - DOMAIN-SUFFIX,googleadservices.com,REJECT
+  - DOMAIN-SUFFIX,adservice.google.com,REJECT
+  - DOMAIN-SUFFIX,applovin.com,REJECT
+  - DOMAIN-SUFFIX,mintegral.com,REJECT
+  - DOMAIN-SUFFIX,unityads.unity3d.com,REJECT
+  - DOMAIN-SUFFIX,inmobi.com,REJECT
+  - DOMAIN-SUFFIX,chartboost.com,REJECT
+
+  # ====== 基础直连 ======
+  - DOMAIN-SUFFIX,local,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+
+  - MATCH,DIRECT
