@@ -1,0 +1,11 @@
+{
+  "PortalHost": "10.2.5.251",
+  "PortalPort": 801,
+  "Account": "",
+  "Password": "",
+  "Carrier": "cmcc",
+  "Ssid": "",
+  "IntervalSeconds": 30,
+  "VerifyTimeoutSeconds": 30,
+  "LogFile": ""
+}
